@@ -1,0 +1,54 @@
+extends base
+
+block content
+    
+    <div class="container">
+        
+        <div class="centered-outer homepage" style="border-radius: 50px;background-color: ivory;">
+            
+            <div class="centered-middle" style="min-width: 600px;" >
+                h3 #{title}
+                <div class="panel-body" style="white-space: pre-wrap;" >
+                    //-h4 This is a map showing off nuclear power plants. On clicking on a specific power plant you will see some additional information such as current power plant status and reactor type.
+                    //-h4 For the API please refer to the bottom of the page
+                    img(src="img/ER.png", alt="dijagram")
+                    h4 Ovo je aplikacija posvećena vizualizaciji nuklearnih elektrana. Klikom na marker biće prikazane neke dodatne informacije poput trenutnog statusa i tipa reaktora.
+                    h4 Moguće je filtrirati prikaz prema zemlji, statusu ili tipu reaktora.
+                    h4 Entitet 'Zemlja' opisan je kodom zemlje i nazivom. Svaka elektrana pripada tačno jednoj zemlji. 
+                    h4 Entitet 'Status_tip' je opisan sa id i status-opisom statusa elektrane. Za svaku elektranu poznat je njen trenutni status.
+                    h4 Entitet 'Reaktor_tip', koji je opisan sa id, tipom (skraćenicom), i dugim nazivom reaktora, i za svaku elektranu zna se njen tip reaktora.
+                    h4 Pored gore navedenih podataka, za svaku 'Elektranu' zna se i njeno ime, i pozicija geo. širina i geo. visina, kao i izvedene kolona geom koja predstavlja tačku gdje se ta elektrana nalazi.
+                    h4 Tehnologije: Node.js | Express.js | Postgres (+ PostGIS) | Leaflet
+                    br
+                    h3 API
+                    h4 
+                        b GET  /api/v1/data 
+                        span za sve elektrane
+                    h4 
+                        b POST  /api/v1/data 
+                        span za dodati novu elektranu 
+                            //-h6 {"name":"ime elektrane","latitude":9.777772,"longitude":2.333,"country_code":"NZ",	"status_id":2,	"reactor_type_id":7}                
+                    h4 
+                        b GET/PATCH/DELETE  /api/v1/data/id 
+                        span za datu elektranu
+                    h4
+                        b GET  /api/v1/reactors 
+                        span za sve vrste reaktora
+                    h4 
+                        b POST  /api/v1/reactors 
+                        span dodaje novi reaktor za dato 
+                            //-h6 {"type":"tip reaktora", "description":"opis reaktora"}
+                    h4 
+                        b GET/PATCH/DELETE  /api/v1/reactors/id 
+                        span za reaktor gdje je dato id
+                    h4 
+                        b GET  /api/v1/countries 
+                        span za sve zemlje
+                    h4 
+                        b GET  /api/v1/status 
+                        span za sve tipove statusa
+                   
+                </div>
+            </div>
+        </div>
+    </div>

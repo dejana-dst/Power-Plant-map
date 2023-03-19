@@ -1,0 +1,70 @@
+extends base
+
+block content
+    
+
+    <div class="container">
+        
+        <div class="centered-outer homepage">
+            <div class="centered-middle" style="min-width: 600px;" >
+    
+                h1 This is the map showing off nuclear plants. Click on one for some more information or use the filters below the map.
+	
+                #map(style=" height: 450px; top:200px;")
+                
+
+
+                #filters(class="centered-middle" style="text-align:center")
+                    <form class="centered-inner form-group" action="/search" method="GET">
+                        div(class="filters")
+                        
+                            <select name="countries" id="countries" class="select form-control select--countries" multiple="multiple" >
+                                each country in countries
+                                    option(value=`${country.country_code}` selected=(selectedCountries.includes(country.country_code))) #{country.country_name}
+                            </select>
+                            <select name="status" id="status" class="select form-control select--status" multiple="multiple" >
+                                each stat in status
+                                    option(value=`${stat.status_id}`  selected=(selectedStatus.includes(stat.status_id))) #{stat.status}
+                            </select>
+                            
+                        
+                            <select name="reactors" id="reactors" class="select form-control select--reactors" multiple="multiple" >
+                                each reactor in reactors
+                                    option(value=`${reactor.reactor_type_id}` selected=(selectedReactors.includes(reactor.reactor_type_id))) #{reactor.description}
+                            </select>
+
+                            
+                        <button id="search-button" type="submit" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-search"></i>Search
+                        </button>
+                
+    script.
+        var smallIcon = new L.Icon({
+        iconSize: [20, 30],
+        iconAnchor: [13, 27],
+        popupAnchor:  [1, -24],
+        iconUrl: '/img/390.png'
+        });
+        var myData = !{JSON.stringify(jsonData)};
+        var map = L.map('map',{ center: [42.375562, 16.106870], zoom: 4});
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+        L.geoJson(myData,{
+            pointToLayer: function(feature, latlng) {
+                
+                return L.marker(latlng, {icon: smallIcon});
+            },
+            onEachFeature: function (feature, layer) {
+            layer.bindPopup("<li class='list-group-item'><b>"+feature.properties.f2+",  "+feature.properties.f3+
+            "</b></li><li class='list-group-item'>Current status:   <b>"+feature.properties.f4+"</b></li><li class='list-group-item'> Reactor type:   <b>"+feature.properties.f5+"</b></li>");
+            }
+        }).addTo(map);
+        //map.on('click', 
+        //     	function(e){
+        //            var coord = e.latlng.toString().split(',');
+        //            var lat = coord[0].split('(');
+        //            var lng = coord[1].split(')');
+                    //alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
+
+        //     		L.marker(e.latlng).addTo(map).bindPopup("Moved to: " + lat[1] + ", " + lng[0] + ".");
+        //    	});
+

@@ -1,0 +1,11 @@
+extends base
+
+block content
+  .container
+    .panel
+      .error__title
+        h2.heading-secondary.heading-secondary--error Ups...   
+        h2.error__emoji 
+        h2= error.status
+        pre #{error.stack}
+      .error__msg= msg
